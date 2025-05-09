@@ -10,7 +10,7 @@ def solve_aoi_cvx(c, P_budget, w=None, eps=1e-6, gamma=3):
     a = cp.Variable(N, nonneg=True)
     constraints = []
 
-    # AoI constraint (DCP-compliant)
+    # AoI constraint (DCP)
     for j in range(N):
         s_j = cp.sum(lam[:, j]) + eps          # affine & positive
         constraints += [a[j] >= cp.inv_pos(s_j)]
@@ -20,9 +20,9 @@ def solve_aoi_cvx(c, P_budget, w=None, eps=1e-6, gamma=3):
         constraints += [cp.sum(x[i, :]) <= 1]
         constraints += [cp.sum(cp.power(lam[i, :], 2)) <= P_budget[i]]
 
-    # rate ≤ bandwidth × capacity
+    # rate ≤ bandwidth x capacity
     constraints += [lam <= cp.multiply(x, c)]
 
     prob = cp.Problem(cp.Minimize(w @ a + gamma * cp.sum(x)), constraints)
-    prob.solve(solver=cp.SCS, verbose=True)     # or ECOS if installed
+    prob.solve(solver=cp.SCS, verbose=True)     
     return a.value, x.value, lam.value, prob.value, prob.status
