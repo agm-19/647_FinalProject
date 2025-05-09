@@ -1,14 +1,13 @@
+#This code is to verify the solver using cvx
 import cvxpy as cp
 import numpy as np
 
 def solve_aoi_cvx(c, P_budget, w=None, eps=1e-6, gamma=3):
     N = c.shape[0]
     w = np.ones(N) if w is None else w
-
-    x   = cp.Variable((N, N), nonneg=True)
+    x = cp.Variable((N, N), nonneg=True)
     lam = cp.Variable((N, N), nonneg=True)
-    a   = cp.Variable(N,      nonneg=True)
-
+    a = cp.Variable(N, nonneg=True)
     constraints = []
 
     # AoI constraint (DCP-compliant)
