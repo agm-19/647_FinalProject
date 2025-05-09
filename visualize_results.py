@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt, seaborn as sns, numpy as np
 from matplotlib.sankey import Sankey
 
-# ------------ helper ---------------------------------------------------------
+# ------------ helper ---------------
 def _finalise(save, fname):
     plt.tight_layout()
     if save:
@@ -10,7 +10,6 @@ def _finalise(save, fname):
     else:
         plt.show(block=False)
 
-# ------------ core plots -----------------------------------------------------
 def plot_convergence(hist, save, idx):
     plt.figure(); plt.plot(hist); plt.xlabel("Iter"); plt.ylabel("Σw·AoI")
     plt.title("PGD Convergence"); _finalise(save, f"Figure_{idx}.png")
